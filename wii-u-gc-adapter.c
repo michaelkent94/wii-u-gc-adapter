@@ -116,6 +116,7 @@ static uint16_t product_id = USB_ID_PRODUCT;
 static struct gpiod_chip *gpio_chip;
 static struct gpiod_line_settings *gpio_line_settings;
 static struct gpiod_line_config *gpio_line_config;
+static struct gpiod_request_config *gpio_request_config;
 static struct gpiod_line_request *gpio_line_request;
 
 static int gpio_init(void)
@@ -152,11 +153,15 @@ static int gpio_init(void)
         return 1;
     }
     
+    // Request config
+    gpio_request_config = gpiod_request_config_new();
+    
     // Open the line request with the config
-    gpio_line_request = gpiod_chip_request_lines(gpio_chip, NULL, gpio_line_config);
+    gpio_line_request = gpiod_chip_request_lines(gpio_chip, gpio_request_config, gpio_line_config);
     if (!gpio_line_request) {
         fprintf(stderr, "Could not get input line. %d\n", errno);
         gpiod_line_config_free(gpio_line_config);
+        gpiod_request_config_free(gpio_request_config);
         gpiod_line_settings_free(gpio_line_settings);
         gpiod_chip_close(gpio_chip);
         return 1;
@@ -169,6 +174,7 @@ static void gpio_close(void)
 {
     gpiod_line_request_release(gpio_line_request);
     gpiod_line_config_free(gpio_line_config);
+    gpiod_request_config_free(gpio_request_config);
     gpiod_line_settings_free(gpio_line_settings);
     gpiod_chip_close(gpio_chip);
 }
