@@ -131,8 +131,14 @@ static int gpio_init(void)
     }
     
     // Line settings
-    // active-low, pull-up, 20000us debounce
+    // input, active-low, pull-up, 20000us debounce
     gpio_line_settings = gpiod_line_settings_new();
+    if (0 != gpiod_line_settings_set_direction(gpio_line_settings, GPIOD_LINE_DIRECTION_INPUT)) {
+        fprintf(stderr, "Could not set line direction.\n");
+        gpiod_line_settings_free(gpio_line_settings);
+        gpiod_chip_close(gpio_chip);
+        return 1;
+    }
     gpiod_line_settings_set_active_low(gpio_line_settings, true);
     gpiod_line_settings_set_debounce_period_us(gpio_line_settings, 20000);
     if (0 != gpiod_line_settings_set_bias(gpio_line_settings, GPIOD_LINE_BIAS_PULL_UP)) {
