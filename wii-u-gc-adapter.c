@@ -113,10 +113,10 @@ static uint16_t vendor_id = USB_ID_VENDOR;
 static uint16_t product_id = USB_ID_PRODUCT;
 
 #define GPIO_INPUT_LINE_OFFSET 16
-static gpiod_chip *gpio_chip;
-static gpiod_line_settings *gpio_line_settings;
-static gpiod_line_config *gpio_line_config;
-static gpiod_line_request *gpio_line_request;
+static struct gpiod_chip *gpio_chip;
+static struct gpiod_line_settings *gpio_line_settings;
+static struct gpiod_line_config *gpio_line_config;
+static struct gpiod_line_request *gpio_line_request;
 
 static int gpio_init(void)
 {
@@ -161,6 +161,8 @@ static int gpio_init(void)
         gpiod_chip_close(gpio_chip);
         return 1;
     }
+    
+    return 0;
 }
 
 static void gpio_close(void)
