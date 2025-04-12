@@ -38,7 +38,7 @@
 
 #define MAX_FF_EVENTS 4
 
-#define BUTTON_OFFSET_SELECT_INDEX = 5
+#define BUTTON_OFFSET_SELECT_INDEX 5
 const int BUTTON_OFFSET_VALUES[16] = {
     BTN_START,
     BTN_TR2,
@@ -143,7 +143,7 @@ static int gpio_init(void)
     
     // Line config
     gpio_line_config = gpiod_line_config_new();
-    int lines[1] = {GPIO_INPUT_LINE_OFFSET};
+    unsigned int lines[1] = {GPIO_INPUT_LINE_OFFSET};
     if (0 != gpiod_line_config_add_line_settings(gpio_line_config, lines, 1, gpio_line_settings)) {
         fprintf(stderr, "Could not add line settings to config.\n");
         gpiod_line_config_free(gpio_line_config);
@@ -175,7 +175,7 @@ static void gpio_close(void)
 
 static bool gpio_is_select_pressed(void)
 {
-    gpiod_line_value val = gpiod_line_request_get_value(gpio_line_request, GPIO_INPUT_LINE_OFFSET);
+    enum gpiod_line_value val = gpiod_line_request_get_value(gpio_line_request, GPIO_INPUT_LINE_OFFSET);
     if (GPIOD_LINE_VALUE_ERROR == val) {
         fprintf(stderr, "Error reading line.\n");
         return false;
