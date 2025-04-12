@@ -155,7 +155,7 @@ static int gpio_init(void)
     // Open the line request with the config
     gpio_line_request = gpiod_chip_request_lines(gpio_chip, NULL, gpio_line_config);
     if (!gpio_line_request) {
-        fprintf(stderr, "Could not get input line.\n");
+        fprintf(stderr, "Could not get input line. %d\n", errno);
         gpiod_line_config_free(gpio_line_config);
         gpiod_line_settings_free(gpio_line_settings);
         gpiod_chip_close(gpio_chip);
