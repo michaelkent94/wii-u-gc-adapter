@@ -810,6 +810,12 @@ int main(int argc, char *argv[])
     
     gpio_init();
     
+    // Test gpio
+    while (true) {
+        fprintf(stderr, "select: %d\n", gpio_is_select_pressed());
+        sleep(1);
+    }
+    
     struct libusb_device **devices;
     
     int count = libusb_get_device_list(NULL, &devices);
