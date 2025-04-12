@@ -120,7 +120,7 @@ static struct gpiod_line_request *gpio_line_request;
 
 static int gpio_init(void)
 {
-    const char *chipname = "gpiochip0";
+    const char *chipname = "/dev/gpiochip0";
     
     // Open the chip
     gpio_chip = gpiod_chip_open(chipname);
